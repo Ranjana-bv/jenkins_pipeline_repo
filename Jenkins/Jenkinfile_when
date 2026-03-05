@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    parameters {
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Enable deployment')
+        booleanParam(name: 'SKIP_DEPLOY', defaultValue: false, description: 'Skip deployment')
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                echo 'Building application'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests'
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                allOf {
+
+                    anyOf {
+                        branch 'main'
+                        branch 'release'
+                    }
+
+                    expression { params.DEPLOY == true }
+
+                    not {
+                        expression { params.SKIP_DEPLOY == true }
+                    }
+                }
+            }
+            steps {
+                echo 'Deploying application'
+            }
+        }
+    }
+}
