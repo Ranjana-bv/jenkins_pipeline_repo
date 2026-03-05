@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Parallel Jobs') {
+            parallel {
+                stage('Build') {
+                    steps {
+                        echo 'Building the application'
+                        sh 'sleep 5'
+                    }
+                }
+
+                stage(' Test') {
+                    steps {
+                        echo 'test is running'
+                        sh 'sleep 5'
+                    }
+                }
+
+                stage('Buffer') {
+                    steps {
+                        echo 'buffering'
+                        sh 'sleep 5'
+                    }
+                }
+            }
+        }
+        stage('Deploying'){
+            steps{
+                sh '''
+                echo "deploying"
+                sleep 5
+                '''
+            }
+        }
+    }
+}
