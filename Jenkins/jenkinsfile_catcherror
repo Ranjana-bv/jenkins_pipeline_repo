@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Build successful'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                catchError {
+                    echo 'Running tests'
+                    sh 'exit 1'   // test fails
+                }
+                echo 'Pipeline continues even after failure'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application'
+            }
+        }
+    }
+}
