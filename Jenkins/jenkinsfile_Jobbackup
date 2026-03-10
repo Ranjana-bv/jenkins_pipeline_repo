@@ -15,6 +15,7 @@ pipeline {
                     
                     def backupFolder = "/backup/jenkins_home_backup_${timestamp}"
                     
+                    sh "mkdir -p /backup"
                    
                     sh "tar -czf ${backupFolder}.tar.gz ${JENKINS_HOME}"
                     
