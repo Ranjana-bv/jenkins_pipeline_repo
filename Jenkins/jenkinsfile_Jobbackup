@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    triggers {
+        cron('0 12 * * *') 
+    }
+
+    stages {
+        stage('Backup Jenkins Home') {
+            steps {
+                script {
+                   
+                    def timestamp = sh(returnStdout: true, script: 'date +%Y-%m-%d_%H-%M-%S').trim()
+                    
+                    
+                    def backupFolder = "/backup/jenkins_home_backup_${timestamp}"
+                    
+                   
+                    sh "tar -czf ${backupFolder}.tar.gz ${JENKINS_HOME}"
+                    
+                    echo "Backup created at: ${backupFolder}.tar.gz"
+                }
+            }
+        }
+    }
+}
