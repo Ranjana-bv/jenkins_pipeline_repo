@@ -6,22 +6,23 @@ pipeline {
     }
 
     stages {
-        stage('Backup Jenkins Home') {
+        stage('Backup Jenkins Jobs') {
             steps {
                 script {
 
+                   
                     def timestamp = sh(script: "date +%Y-%m-%d_%H-%M-%S", returnStdout: true).trim()
 
-              
-                    def backupFolder = "/backup/jenkins_home_backup_${timestamp}"
+                    def backupFolder = "/backup/jenkins_jobs_backup_${timestamp}"
 
                     sh "mkdir -p ${backupFolder}"
-
-                    sh "cp -r /var/lib/jenkins/* ${backupFolder}"
-
-                    echo "Backup created at ${backupFolder}"
-
+                    
+                    sh "cp -r /var/lib/jenkins/jobs/* ${backupFolder}"
+                    
+                    echo "Jobs backup created at: ${backupFolder}"
+                    
                     sh "ls -l ${backupFolder}"
+
                 }
             }
         }
